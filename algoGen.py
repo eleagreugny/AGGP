@@ -65,7 +65,7 @@ def mutation():
 
 
   def simulation() : 
-    nb_graph = 5
+    n = 5
     while(len(self.listGraph)>n): 
       listeModif = selectionFitness()
       mutation()
