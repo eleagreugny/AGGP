@@ -62,3 +62,12 @@ def mutation():
             b=self.listGraph[i].edges()[j][1]
             self.listGraph[i].remove_edge(*self.listGraph[i].edges()[j])
             self.listGraph[i].add_edge(b,a)
+
+
+  def simulation() : 
+    nb_graph = 5
+    while(len(self.listGraph)>n): 
+      listeModif = selectionFitness()
+      mutation(listeModif)
+      crossingOver(listeModif)
+    affichageGraphe()
