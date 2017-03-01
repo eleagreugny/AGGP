@@ -1,3 +1,6 @@
+import networkx as nx
+from scipy import stats
+
 class Graphe :
 
   def __init__(self):
