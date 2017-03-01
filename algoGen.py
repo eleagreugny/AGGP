@@ -9,3 +9,12 @@ class AlgoGen:
       self.listGraph.append(G)
     self.pm = Pm
     self.pc = Pc
+
+
+def simulation() : 
+  nb_graph = 5
+  while(len(self.listGraph)>n): 
+    listeModif = selectionFitness()
+    mutation(listeModif)
+    crossingOver(listeModif)
+  affichageGraphe()
