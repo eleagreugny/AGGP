@@ -68,6 +68,6 @@ def mutation():
     nb_graph = 5
     while(len(self.listGraph)>n): 
       listeModif = selectionFitness()
-      mutation(listeModif)
-      crossingOver(listeModif)
+      mutation()
+      crossingOver()
     affichageGraphe()
