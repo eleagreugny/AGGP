@@ -62,6 +62,71 @@ def mutation():
             b=self.listGraph[i].edges()[j][1]
             self.listGraph[i].remove_edge(*self.listGraph[i].edges()[j])
             self.listGraph[i].add_edge(b,a)
+            
+            
+"""Méthode croisement
+Effectue un crossing over entre les noeuds (et les arrêtes) de deux génomes
+"""
+def crossingOver():
+  for i in range(len(self.listGraph)):
+    #Tire aléatoirement un chiffre r dans la loi uniforme entre 0 et 1
+    r=random.random()
+    #Si r est inférieur à la probabilité de croisement alors on effectue
+    #le crossing over entre le graph i et un second graph choisi aléatoirement
+    if (r<self.pc):
+      #Choisi le second graph avec lequel faire le crossing over
+      g=random.randint(0, len(self.listGraph)-1)
+      #Tire la position du croisement aléatoire entre les noeuds des 2 graphes
+      pn=random.randint(0, len(self.listGraph[i].nodes())-1)
+      if (g!=i):
+        #Crée une variable temporaire pour stocker les noeuds lors de la 
+        #permutation
+        temp=[]
+        #Ajoute à la variable temporaire la liste des noeuds du graphe i à 
+        #permuter
+        for k in range(pn, len(self.listGraph[i].nodes())):
+          temp.append(self.listGraph[i].nodes()[k])
+        #Supprime les noeuds du graphe i à permuter
+        for k in range(pn, len(self.listGraph[i].nodes())):
+          self.listGraph[i].remove_node(self.listGraph[i].nodes()[pn])
+        #Ajoute les noeuds du graphe g dans la liste des noeuds du graphe i
+        for k in range(pn, len(self.listGraph[g].nodes())):
+          self.listGraph[i].add_node(self.listGraph[g].nodes()[k])
+        #Supprime les noeuds du graphe g à permuter
+        for k in range(pn, len(self.listGraph[g].nodes())):
+          self.listGraph[g].remove_node(self.listGraph[g].nodes()[pn])
+        #Ajoute les noeuds présent dans la variable temporaire à la liste de 
+        #noeuds du graphe g
+        for k in range(0, len(temp)):
+          self.listGraph[g].add_node(temp[k])
+          
+    r=random.random()
+    if (r<self.pc):
+      #Choisi le second graph avec lequel faire le crossing over
+      g=random.randint(0, len(self.listGraph)-1)
+      #Tire la position du croisement aléatoire entre les arrêtes des 2 graphes
+      pe=random.randint(0, len(self.listGraph[i].edges())-1)
+      if (g!=i):
+        #Crée une variable temporaire pour stocker les arrêtes lors de la 
+        #permutation
+        temp=[]
+        #Ajoute à la variable temporaire la liste des arrêtes du graphe i à 
+        #permuter
+        for k in range(pe, len(self.listGraph[i].edges())):
+          temp.append(self.listGraph[i].edges()[k])
+        #Supprime les arrêtes du graphe i à permuter
+        for k in range(pe, len(self.listGraph[i].edges())):
+          self.listGraph[i].remove_edge(*self.listGraph[i].edges()[pe])
+        #Ajoute les arrêtes du graphe g dans la liste des arrêtes du graphe i
+        for k in range(pe, len(self.listGraph[g].edges())):
+          self.listGraph[i].add_edge(*self.listGraph[g].edges()[k])
+        #Supprime les arrête du graphe g à permuter
+        for k in range(pe, len(self.listGraph[g].edges())):
+          self.listGraph[g].remove_edge(*self.listGraph[g].edges()[pe])
+        #Ajoute les arrêtes présentes dans la variable temporaire à la liste de 
+        #arrêtes du graphe g
+        for k in range(0, len(temp)):
+          self.listGraph[g].add_edge(*temp[k])
 
 
   def simulation() : 
