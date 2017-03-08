@@ -130,9 +130,10 @@ def crossingOver():
 
 
   def simulation() : 
-    n = 5
-    while(len(self.listGraph)>n): 
+    t=0
+    while(t<1000): 
       listeModif = selectionFitness()
       mutation()
       crossingOver()
+      t = t+1
     affichageGraphe()
