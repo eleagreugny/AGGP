@@ -1,5 +1,6 @@
 import networkx as nx
 from scipy import stats
+import math
 
 
 class Graphe :
@@ -40,6 +41,15 @@ class Graphe :
         degrees.append(self.graph.degree(u))
     lr = stats.linregress(degrees,loc_coeffCluster)
     S = abs(lr[0] - 1.0)
+    if S > 5 :
+      S = 5
+    r = 5 - S
+    return r
+
+  def diametreMoyen(self):
+    D = nx.diameter(self.graph)
+    ref = math.log(self.size)/math.log(math.log(self.size))
+    S = abs(D - ref)/float(ref)
     if S > 5 :
       S = 5
     r = 5 - S
