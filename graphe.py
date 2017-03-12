@@ -55,7 +55,7 @@ class Graphe :
     r = 5 - S
     return r
     
-  def calculFitness() : 
+  def calculFitness(self) :
     f=self.poidsPonderation[0]*loiPuissance() + self.poidsPonderation[1]*coeffCluster() + self.poidsPonderation[2]*diametreMoyen()
     return f
 
