@@ -24,21 +24,21 @@ class Graphe :
 
   def coeffCluster(self):
     loc_coeffCluster = []
+    degrees = []
     for u in self.graph.nodes():
       neighbors = u.neighbors()
       n = 0
       while neighbors:
         v = neighbors[0]
         del neighbors[0]
-        #ATTENTION ici on enleve un element de la liste sur laquelle on itere
-        #trouver un autre moyen
         for w in neighbors:
           if (v,w) in self.graph.edges() or (w,v) in self.graph.edges():
             n += 1
       C_u = 2*n/(self.graph.degree(u)*(self.graph.degree(u)-1))
       loc_coeffCluster.append(C_u)
-    C = sum(loc_coeffCluster)/ self.size
-    S = abs(C - 1/log(self.size))/(1/log(self.size))
+      degrees.append(self.graph.degree(u))
+    lr = stats.linregress(degrees,loc_coeffCluster)
+    S = abs(lr[0] - 1.0)
     if S > 5 :
       S = 5
     r = 5 - S
