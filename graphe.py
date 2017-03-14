@@ -1,6 +1,7 @@
 import networkx as nx
 from scipy import stats
 import math
+import numpy as np
 
 
 class Graphe :
@@ -22,10 +23,19 @@ class Graphe :
   def loiPuissance(self) :
     k=[]
     pk=[]
+    lg_pk=[]
+    lg_k=[]
     for i in range(len(self.graph.nodes())) :
       k.append(self.graph.degree(i))
       pk.append(i)
-    lr= stats.linregress(k,pk)
+    for i in range(len(self.graph.nodes())) :
+      if k[i]!=0 and pk[i]!=0:
+        lg_k.append(np.log(k[i]))
+        lg_pk.append(np.log(pk[i]))
+    print lg_pk
+    print lg_k
+
+    lr= stats.linregress(lg_k,lg_pk)
     S=abs(lr[0]-(2.3))/(2.3)
     if S>5 : 
       S=5
