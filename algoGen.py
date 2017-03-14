@@ -27,14 +27,15 @@ class AlgoGen:
   """
   def mutation(self):
     for i in range(len(self.listGraph)):
+      #Parcours les noeuds
       for j in range(len(self.listGraph[i].graph.nodes())):
         #Tire aléatoirement un chiffre r dans la loi uniforme entre 0 et 1
         r=random.random()
         #Si r est inférieur à la probabilité de muter alors on mute le graph
-        if (r<self.pm):
+        if (r<self.pm*0.6 and j>=len(self.listGraph[i].graph.nodes())):
           #Tire un entier aléatoirement entre 1 et 5 pour choisir la modalité de 
           #mutation
-          c=random.choice([1,2,3,4,5])
+          c=random.choice([1,2,3])
           #Si c égal 1, ajout d'un noeud
           if (c==1):
             self.listGraph[i].graph.add_node(max(self.listGraph[i].graph.nodes())+1)
@@ -47,23 +48,32 @@ class AlgoGen:
             b=random.randint(0, len(self.listGraph[i].graph.nodes())-1)
             print "a=%i, b=%i"%(a,b)
             self.listGraph[i].graph.add_edge(a,b)
-          #Si c égal 4, suppression d'une arrête
-          if (c==4):
-            v = random.choice(self.listGraph[i].graph.neighbors(self.listGraph[i].graph.nodes()[j]))
-            self.listGraph[i].graph.remove_edge(self.listGraph[i].graph.nodes()[j],v) #cette ligne est importante
-            #self.listGraph[i].graph.remove_edge(*self.listGraph[i].graph.edges()[j])
-          #Si c égal 5, modification de l'étiquette d'une arrête
-          if (c==5):
-            #Tire la nouvelle étiquette
-            a=random.randint(0, len(self.listGraph[i].graph.nodes())-1)
-            r=random.random()
-            v = random.choice(self.listGraph[i].graph.neighbors(self.listGraph[i].graph.nodes()[j]))
-            if(r<0.5):
-              self.listGraph[i].graph.remove_edge(self.listGraph[i].graph.nodes()[j],v)
-              self.listGraph[i].graph.add_edge(self.listGraph[i].graph.nodes()[j],a)
-            else :
-              self.listGraph[i].graph.remove_edge(self.listGraph[i].graph.nodes()[j],v)
-              self.listGraph[i].graph.add_edge(v,a)
+            
+      #Parcours les arrêtes
+      for k in range(len(self.listGraph[i].graph.edges())):
+        #Tire aléatoirement un chiffre r dans la loi uniforme entre 0 et 1
+        r=random.random()
+        #Si r est inférieur à la probabilité de muter alors on mute le graph
+        if (r<self.pm*0.4 and k>=len(self.listGraph[i].graph.edges())):
+          #Tire un entier aléatoirement entre 1 et 5 pour choisir la modalité de 
+          #mutation
+          c=random.choice([1,2])
+          #Si c égal 1, suppression d'une arrête
+          if (c==1):
+            self.listGraph[i].graph.remove_edge(*self.listGraph[i].graph.edges()[k])
+          #Si c égal 2, modification de l'étiquette d'une arrête
+          if (c==2):
+          #Tire la nouvelle étiquette
+           a=random.randint(0, len(self.listGraph[i].graph.nodes())-1)
+           r=random.random()
+           if(r<0.5):
+             b=self.listGraph[i].graph.edges()[k][0]
+             self.listGraph[i].graph.remove_edge(*self.listGraph[i].graph.edges()[k])
+             self.listGraph[i].graph.add_edge(b,a)
+           else :
+             b=self.listGraph[i].graph.edges()[k][1]
+             self.listGraph[i].graph.remove_edge(*self.listGraph[i].graph.edges()[k])
+             self.listGraph[i].graph.add_edge(b,a)
               
               
   """Méthode croisement
@@ -159,15 +169,15 @@ class AlgoGen:
   
   def simulation(self) :
     print('Debut simulation')
-    for i in range(len(self.listGraph)):
-      self.listGraph[i].calculFitness()
+    #for i in range(len(self.listGraph)):
+    #  self.listGraph[i].calculFitness()
     t=0
     while(t<1000): 
-      listeModif = self.selectionFitness()
-      #self.mutation()
+      #listeModif = self.selectionFitness()
+      self.mutation()
       #self.crossingOver()
-      for i in range(len(self.listGraph)):
-        self.listGraph[i].calculFitness()
+      #for i in range(len(self.listGraph)):
+      #  self.listGraph[i].calculFitness()
       t = t+1
     #print(self.listGraph)
     print(len(self.listGraph))
