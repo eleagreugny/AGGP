@@ -28,11 +28,11 @@ class AlgoGen:
   def mutation(self):
     for i in range(len(self.listGraph)):
       #Parcours les noeuds
-      for j in range(len(self.listGraph[i].graph.nodes())):
+      for j in range(len(self.listGraph[i].graph.nodes())-1):
         #Tire aléatoirement un chiffre r dans la loi uniforme entre 0 et 1
         r=random.random()
         #Si r est inférieur à la probabilité de muter alors on mute le graph
-        if (r<self.pm*0.6 and j>=len(self.listGraph[i].graph.nodes())):
+        if (r<(self.pm*0.6) and len(self.listGraph[i].graph.nodes())-1>=j):
           #Tire un entier aléatoirement entre 1 et 5 pour choisir la modalité de 
           #mutation
           c=random.choice([1,2,3])
@@ -46,15 +46,14 @@ class AlgoGen:
           if (c==3):
             a=random.randint(0, len(self.listGraph[i].graph.nodes())-1)
             b=random.randint(0, len(self.listGraph[i].graph.nodes())-1)
-            print "a=%i, b=%i"%(a,b)
             self.listGraph[i].graph.add_edge(a,b)
             
       #Parcours les arrêtes
-      for k in range(len(self.listGraph[i].graph.edges())):
+      for k in range(len(self.listGraph[i].graph.edges())-1):
         #Tire aléatoirement un chiffre r dans la loi uniforme entre 0 et 1
         r=random.random()
         #Si r est inférieur à la probabilité de muter alors on mute le graph
-        if (r<self.pm*0.4 and k>=len(self.listGraph[i].graph.edges())):
+        if (r<self.pm*0.4 and len(self.listGraph[i].graph.edges())-1>=k):
           #Tire un entier aléatoirement entre 1 et 5 pour choisir la modalité de 
           #mutation
           c=random.choice([1,2])
@@ -111,9 +110,11 @@ class AlgoGen:
           #noeuds du graphe g
           for k in range(0, len(temp)):
             self.listGraph[g].graph.add_node(temp[k])
-            
+      
       r=random.random()
-      if (r<self.pc):
+      if (r<self.pc and len(self.listGraph[i].graph.edges())!=0): #Vérifie que
+        #le nombre d'arrêtes est différent de 0 -> possible puisque l'on a supprimé
+        #des noeuds
         #Choisi le second graph avec lequel faire le crossing over
         g=random.randint(0, len(self.listGraph)-1)
         #Tire la position du croisement aléatoire entre les arrêtes des 2 graphes
@@ -169,16 +170,16 @@ class AlgoGen:
   
   def simulation(self) :
     print('Debut simulation')
-    #for i in range(len(self.listGraph)):
-    #  self.listGraph[i].calculFitness()
+    for i in range(len(self.listGraph)):
+      self.listGraph[i].calculFitness()
     t=0
     while(t<1000): 
-      #listeModif = self.selectionFitness()
+      listeModif = self.selectionFitness()
       self.mutation()
-      #self.crossingOver()
-      #for i in range(len(self.listGraph)):
-      #  self.listGraph[i].calculFitness()
+      self.crossingOver()
+      for i in range(len(self.listGraph)):
+        self.listGraph[i].calculFitness()
       t = t+1
-    #print(self.listGraph)
+    print(self.listGraph)
     print(len(self.listGraph))
     self.affiche()
