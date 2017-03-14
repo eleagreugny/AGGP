@@ -3,6 +3,7 @@ import numpy as np
 import random
 import networkx as nx
 from graphe import Graphe
+import matplotlib.pyplot as plt
 
 
 class AlgoGen:
@@ -131,7 +132,7 @@ class AlgoGen:
 
   def affiche(self):
     for i in self.listGraph:
-      nx.draw(i)
+      nx.draw(i.graph)
       plt.show()
 
   def getFitness(self,tupl):
@@ -158,12 +159,16 @@ class AlgoGen:
   
   def simulation(self) :
     print('Debut simulation')
+    for i in range(len(self.listGraph)):
+      self.listGraph[i].calculFitness()
     t=0
     while(t<1000): 
       listeModif = self.selectionFitness()
       #self.mutation()
       #self.crossingOver()
+      for i in range(len(self.listGraph)):
+        self.listGraph[i].calculFitness()
       t = t+1
-    print(self.listGraph)
+    #print(self.listGraph)
     print(len(self.listGraph))
     self.affiche()
