@@ -6,7 +6,16 @@ import math
 class Graphe :
 
   def __init__(self):
-
+    if type == 1: 
+      self.G = gnm_random_graph(nodes, edges, seed=None, directed=False)
+    if type == 2:
+      self.G = barabasi_albert_graph(nodes, edges, seed=None)
+    if type == 3: 
+      self.G = watts_strogatz_graph(nodes, edges, 0.5, seed=None)
+    
+    self.fitness = calculFitness(G)
+    self.ID = ID
+    self.ponderation = (2,2,1)
 
 
 
