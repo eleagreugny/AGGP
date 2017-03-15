@@ -21,20 +21,25 @@ class Graphe :
 
 
   def loiPuissance(self) :
-    k=[]
+    l_k=[]
     pk=[]
     lg_pk=[]
     lg_k=[]
+    d={}
     for i in range(len(self.graph.nodes())) :
-      k.append(self.graph.degree(i))
-      pk.append(i)
-    for i in range(len(self.graph.nodes())) :
-      if k[i]!=0 and pk[i]!=0:
-        lg_k.append(np.log(k[i]))
+      deg=self.graph.degree(self.graph.nodes()[i])
+      if d.has_key(deg) : 
+        d[deg]= d[deg]+1
+      else : 
+        d[deg]=1
+      #print d
+    for k in d.keys():
+      pk.append(float(d[k])/len(self.graph.nodes()))
+      l_k.append(k)
+    for i in range(len(pk)) :
+      if l_k[i]!=0 and pk[i]!=0:
+        lg_k.append(np.log(l_k[i]))
         lg_pk.append(np.log(pk[i]))
-    print lg_pk
-    print lg_k
-
     lr= stats.linregress(lg_k,lg_pk)
     S=abs(lr[0]-(2.3))/(2.3)
     if S>5 : 
