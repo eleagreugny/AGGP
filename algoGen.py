@@ -10,8 +10,10 @@ class AlgoGen:
 
   def __init__(self, N, n, e, Pm, Pc):
     self.listGraph = []
+    print ("construction")
     for i in range(N):
-      G = Graphe(i%3, i, n, e)
+      print i
+      G = Graphe(i%2, i, n, e)
       self.listGraph.append(G)
     self.pm = Pm
     self.pc = Pc
@@ -26,6 +28,7 @@ class AlgoGen:
     - Modification de l'étiquette d'une arrête
   """
   def mutation(self):
+    print("mutation")
     for i in range(len(self.listGraph)):
       #Parcours les noeuds
       for j in range(len(self.listGraph[i].graph.nodes())-1):
@@ -79,6 +82,7 @@ class AlgoGen:
   Effectue un crossing over entre les noeuds (et les arrêtes) de deux génomes
   """
   def crossingOver(self):
+    print ("crossing over")
     for i in range(len(self.listGraph)):
       #Tire aléatoirement un chiffre r dans la loi uniforme entre 0 et 1
       r=random.random()
@@ -150,6 +154,7 @@ class AlgoGen:
     return tupl[1]
 
   def selectionFitness(self):
+    print ("selection fitness")
     listeFitness = []
     for i in range(len(self.listGraph)):
       listeFitness.append((i,self.listGraph[i].fitness)) #creation d'une liste de tuples
@@ -171,15 +176,17 @@ class AlgoGen:
   def simulation(self) :
     print('Debut simulation')
     for i in range(len(self.listGraph)):
+      print ("fitness")
       self.listGraph[i].calculFitness()
     t=0
     while(t<1000): 
+      print t
       listeModif = self.selectionFitness()
       self.mutation()
       self.crossingOver()
       for i in range(len(self.listGraph)):
         self.listGraph[i].calculFitness()
       t = t+1
-    print(self.listGraph)
-    print(len(self.listGraph))
+    #print(self.listGraph)
+    #print(len(self.listGraph))
     self.affiche()

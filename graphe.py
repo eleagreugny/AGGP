@@ -7,12 +7,12 @@ import numpy as np
 class Graphe :
 
   def __init__(self,ID, typeG, nodes, edges):
-    if typeG == 1: 
+    if typeG == 0: 
       self.graph = nx.gnm_random_graph(nodes, edges, seed=None, directed=False)
-    elif typeG == 2:
+    else :  #typeG == 1:
       self.graph = nx.barabasi_albert_graph(nodes, edges, seed=None)
-    else: #typeG == 3: 
-      self.graph = nx.watts_strogatz_graph(nodes, edges, 0.5, seed=None)
+    #else: #typeG == 3: 
+     # self.graph = nx.watts_strogatz_graph(nodes, edges, 0.5, seed=None)
     
     self.fitness = 0.0
     self.ID = ID
@@ -20,7 +20,9 @@ class Graphe :
 
 
 
+
   def loiPuissance(self) :
+    print ("loi puissance")
     l_k=[]
     pk=[]
     lg_pk=[]
@@ -48,6 +50,7 @@ class Graphe :
     return r
 
   def coeffCluster(self):
+    print("coeff")
     loc_coeffCluster = []
     degrees = []
     for u in self.graph.nodes():
@@ -76,6 +79,7 @@ class Graphe :
     return r
 
   def diametreMoyen(self):
+    print ("diametre")
     if nx.is_connected(self.graph):
       D = nx.diameter(self.graph)
       ref = math.log(len(self.graph.nodes()))/math.log(math.log(len(self.graph.nodes())))
