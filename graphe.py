@@ -93,5 +93,6 @@ class Graphe :
     
   def calculFitness(self) :
     f=self.poidsPonderation[0]*self.loiPuissance() + self.poidsPonderation[1]*self.coeffCluster() + self.poidsPonderation[2]*self.diametreMoyen()
+    self.fitness = f
     return f
 
