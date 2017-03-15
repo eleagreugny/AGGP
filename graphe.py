@@ -41,7 +41,7 @@ class Graphe :
         lg_k.append(np.log(l_k[i]))
         lg_pk.append(np.log(pk[i]))
     lr= stats.linregress(lg_k,lg_pk)
-    S=abs(lr[0]-(2.3))/(2.3)
+    S=abs(lr[0]+(2.3))/(2.3)
     if S>5 : 
       S=5
     r= 5-S
