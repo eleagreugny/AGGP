@@ -55,15 +55,7 @@ class Graphe :
     degrees = []
     for u in self.graph.nodes():
       if self.graph.degree(u) > 1:
-        neighbors = self.graph.neighbors(u)
-        n = 0
-        while neighbors:
-          v = neighbors[0]
-          del neighbors[0]
-          for w in neighbors:
-            if (v,w) in self.graph.edges() or (w,v) in self.graph.edges():
-              n += 1
-        C_u = 2*n/float(self.graph.degree(u)*(self.graph.degree(u)-1))
+        C_u = nx.clustering(self.graph,u)
         if C_u != 0:
           invC_u = 1.0/C_u
           loc_coeffCluster.append(invC_u)
