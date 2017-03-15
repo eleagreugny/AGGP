@@ -71,12 +71,15 @@ class Graphe :
     return r
 
   def diametreMoyen(self):
-    D = nx.diameter(self.graph)
-    ref = math.log(len(self.graph.nodes()))/math.log(math.log(len(self.graph.nodes())))
-    S = abs(D - ref)/float(ref)
-    if S > 5 :
-      S = 5
-    r = 5 - S
+    if nx.is_connected(self.graph):
+      D = nx.diameter(self.graph)
+      ref = math.log(len(self.graph.nodes()))/math.log(math.log(len(self.graph.nodes())))
+      S = abs(D - ref)/float(ref)
+      if S > 5 :
+        S = 5
+      r = 5 - S
+    else:
+      r = 0.0
     return r
     
   def calculFitness(self) :
