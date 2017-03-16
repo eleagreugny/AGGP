@@ -146,8 +146,29 @@ class AlgoGen:
             listGraph[g].graph.add_edge(*temp[k])
 
   def affiche(self):
+    
+    #Je recupere une liste de fitness des 20% meilleurs graphe 
+    listeBestFitness = []
+    for i in range(len(self.listGraph)):
+      listeBestFitness.append((i,self.listGraph[i].fitness)) #creation d'une liste de tuples
+    sorted(listeBestFitness, key = self.getFitness)
+    IDmemory = []
+    for j in range(1, (len(listeFitness)*20/100)) :
+      IDmemory.append(listeBestFitness[len(listeBestFitness)-j][0])
+
+    #Liste des graphes correspondant aux 20% aillant la meilleure fitness
+    BestListGraph = []
     for i in self.listGraph:
-      nx.draw(i.graph)
+      choix = True
+      if i.ID in IDmemory:
+        choix = False
+      if choix = False:
+        BestListGraph.append(i)
+    
+    
+    #Affichage de tous les graphes
+    for k in BestListGraph:
+      nx.draw(k.graph)
       plt.show()
 
   def getFitness(self,tupl):
@@ -159,16 +180,17 @@ class AlgoGen:
     for i in range(len(self.listGraph)):
       listeFitness.append((i,self.listGraph[i].fitness)) #creation d'une liste de tuples
     sorted(listeFitness, key = self.getFitness)
-    for j in range(0, (len(listeFitness)*20/100)-1) :
-      del self.listGraph[listeFitness[j][0]]
-    #on recupere les ID des 3 meilleurs graph
-    ID1 = listeFitness[len(listeFitness)-1][0]
-    ID2 = listeFitness[len(listeFitness)-2][0]
-    ID3 = listeFitness[len(listeFitness)-3][0]
+    IDmemory = []
+    for j in range(1, (len(listeFitness)*20/100)) :
+      IDmemory.append(listeFitness[len(listeFitness)-j][0])
+
     
     newListGraph = []
     for i in self.listGraph:
-      if i.ID != ID1 and i.ID != ID2 and i.ID != ID3:
+      choix = True
+      if i.ID in IDmemory:
+        choix = False
+      if choix = True:
         newListGraph.append(i)
     return newListGraph
   
