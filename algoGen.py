@@ -189,7 +189,7 @@ class AlgoGen:
     for j in range(1, int(len(listeFitness)*20.0/100)) :
       IDmemory.append(listeFitness[len(listeFitness)-j][0])
     f = open('suiviBestfitness.txt','a')
-    f.write(str(listeFitness[-1])+'\n')
+    f.write('%i\t%f\n'%listeFitness[-1])
     f.close()
     
     newListGraph = []
