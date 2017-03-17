@@ -158,7 +158,7 @@ class AlgoGen:
     f.write('ID\tfitness\n')
     for j in range(1, int(len(listeBestFitness)*20.0/100)) :
       IDmemory.append(listeBestFitness[len(listeBestFitness)-j][0])
-      f.write('%i\t%i'%listeBestFitness[len(listeBestFitness)-j])
+      f.write('%i\t%i\n'%listeBestFitness[len(listeBestFitness)-j])
     f.close()
 
     #Liste des graphes correspondant aux 20% aillant la meilleure fitness
@@ -188,7 +188,9 @@ class AlgoGen:
     IDmemory = []
     for j in range(1, int(len(listeFitness)*20.0/100)) :
       IDmemory.append(listeFitness[len(listeFitness)-j][0])
-
+    f = open('suiviBestfitness.txt','a')
+    f.write(str(listeFitness[-1])+'\n')
+    f.close()
     
     newListGraph = []
     for i in self.listGraph:
@@ -206,8 +208,11 @@ class AlgoGen:
       print ("fitness")
       self.listGraph[i].calculFitness()
     t=0
-    while(t<50): 
+    while(t<20): 
       print t
+      f = open('suiviBestfitness.txt','a')
+      f.write('%i\t'%t)
+      f.close()
       listeModif = self.selectionFitness()
       self.mutation(listeModif)
       self.crossingOver(listeModif)
