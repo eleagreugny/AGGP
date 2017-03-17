@@ -42,11 +42,14 @@ class Graphe :
       if l_k[i]!=0 and pk[i]!=0:
         lg_k.append(np.log(l_k[i]))
         lg_pk.append(np.log(pk[i]))
-    lr= stats.linregress(lg_k,lg_pk)
-    S=abs(lr[0]+(2.3))/(2.3)
-    if S>5 : 
-      S=5
-    r= 5-S
+    if lg_k:
+      lr= stats.linregress(lg_k,lg_pk)
+      S=abs(lr[0]+(2.3))/(2.3)
+      if S>5 : 
+        S=5
+      r= 5-S
+    else:
+      r = 0.0
     return r
 
   def coeffCluster(self):
