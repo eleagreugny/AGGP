@@ -150,11 +150,16 @@ class AlgoGen:
     #Je recupere une liste de fitness des 20% meilleurs graphe 
     listeBestFitness = []
     for i in range(len(self.listGraph)):
-      listeBestFitness.append((i,self.listGraph[i].fitness)) #creation d'une liste de tuples
+      #creation d'une liste de tuples
+      listeBestFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) 
     sorted(listeBestFitness, key = self.getFitness)
     IDmemory = []
-    for j in range(1, (len(listeFitness)*20/100)) :
+    f = open('bestfitness.txt','w')
+    f.write('ID\tfitness\n')
+    for j in range(1, int(len(listeBestFitness)*20.0/100)) :
       IDmemory.append(listeBestFitness[len(listeBestFitness)-j][0])
+      f.write('%i\t%i'%listeBestFitness[len(listeBestFitness)-j])
+    f.close()
 
     #Liste des graphes correspondant aux 20% aillant la meilleure fitness
     BestListGraph = []
@@ -178,10 +183,10 @@ class AlgoGen:
     print ("selection fitness")
     listeFitness = []
     for i in range(len(self.listGraph)):
-      listeFitness.append((i,self.listGraph[i].fitness)) #creation d'une liste de tuples
+      listeFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) #creation d'une liste de tuples
     sorted(listeFitness, key = self.getFitness)
     IDmemory = []
-    for j in range(1, (len(listeFitness)*20/100)) :
+    for j in range(1, int(len(listeFitness)*20.0/100)) :
       IDmemory.append(listeFitness[len(listeFitness)-j][0])
 
     
