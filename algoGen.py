@@ -147,6 +147,7 @@ class AlgoGen:
 
   def affiche(self):
     for i in self.listGraph:
+      print("fitness : ",i.fitness)
       nx.draw(i.graph)
       plt.show()
 
@@ -179,7 +180,7 @@ class AlgoGen:
       print ("fitness")
       self.listGraph[i].calculFitness()
     t=0
-    while(t<1000): 
+    while(t<100):
       print t
       listeModif = self.selectionFitness()
       self.mutation()
