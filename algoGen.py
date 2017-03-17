@@ -162,7 +162,7 @@ class AlgoGen:
       choix = True
       if i.ID in IDmemory:
         choix = False
-      if choix = False:
+      if choix == False:
         BestListGraph.append(i)
     
     
@@ -190,7 +190,7 @@ class AlgoGen:
       choix = True
       if i.ID in IDmemory:
         choix = False
-      if choix = True:
+      if choix == True:
         newListGraph.append(i)
     return newListGraph
   
