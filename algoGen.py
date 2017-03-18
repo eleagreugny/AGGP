@@ -153,7 +153,7 @@ class AlgoGen:
     for i in range(len(self.listGraph)):
       #creation d'une liste de tuples
       listeBestFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) 
-    sorted(listeBestFitness, key = self.getFitness)
+    listeBestFitness = sorted(listeBestFitness, key = self.getFitness)
     IDmemory = []
     f = open('bestfitness.txt','w')
     f.write('ID\tfitness\n')
@@ -182,7 +182,7 @@ class AlgoGen:
     listeFitness = []
     for i in range(len(self.listGraph)):
       listeFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) #creation d'une liste de tuples
-    sorted(listeFitness, key = self.getFitness)
+    listeFitness = sorted(listeFitness, key = self.getFitness)
     IDmemory = []
     for j in range(1, int(len(listeFitness)*20.0/100)+1) :
       IDmemory.append(listeFitness[-j][0])
