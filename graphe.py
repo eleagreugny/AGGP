@@ -44,10 +44,13 @@ class Graphe :
         lg_pk.append(np.log(pk[i]))
     if lg_k:
       lr= stats.linregress(lg_k,lg_pk)
-      S=abs(lr[0]+(2.3))/(2.3)
-      if S>5 : 
-        S=5
-      r= 5-S
+      if not math.isnan(lr[0]):
+        S=abs(lr[0]+(2.3))/(2.3)
+        if S>5 :
+          S=5
+        r= 5-S
+      else:
+        r = 0.0
     else:
       r = 0.0
     return r
@@ -65,10 +68,13 @@ class Graphe :
           degrees.append(self.graph.degree(u))
     if loc_coeffCluster:
       lr = stats.linregress(degrees,loc_coeffCluster)
-      S = abs(lr[0] - 1.0)
-      if S > 5 :
-        S = 5
-      r = 5 - S
+      if not math.isnan(lr[0]):
+        S = abs(lr[0] - 1.0)
+        if S > 5 :
+          S = 5
+        r = 5 - S
+      else:
+        r = 0.0
     else:
       r = 0.0
     return r
