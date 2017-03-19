@@ -40,8 +40,9 @@ class Graphe :
       l_k.append(k)
     for i in range(len(pk)) :
       if l_k[i]!=0 and pk[i]!=0:
-        lg_k.append(np.log(l_k[i]))
-        lg_pk.append(np.log(pk[i]))
+        if l_k[i]!=1 and pk[i]!=1:
+          lg_k.append(np.log(l_k[i]))
+          lg_pk.append(np.log(pk[i]))
     if lg_k:
       lr= stats.linregress(lg_k,lg_pk)
       if not math.isnan(lr[0]):
