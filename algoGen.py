@@ -13,7 +13,8 @@ class AlgoGen:
     print ("construction")
     for i in range(N):
       print i
-      G = Graphe(i%2, i, n, e)
+      #Graphe(self,ID, typeG, nodes, edges)
+      G = Graphe(i, i%2, n, e)
       self.listGraph.append(G)
     self.pm = Pm
     self.pc = Pc
@@ -152,25 +153,22 @@ class AlgoGen:
     for i in range(len(self.listGraph)):
       #creation d'une liste de tuples
       listeBestFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) 
-    sorted(listeBestFitness, key = self.getFitness)
+    listeBestFitness = sorted(listeBestFitness, key = self.getFitness)
     IDmemory = []
     f = open('bestfitness.txt','w')
     f.write('ID\tfitness\n')
-    for j in range(1, int(len(listeBestFitness)*20.0/100)) :
-      IDmemory.append(listeBestFitness[len(listeBestFitness)-j][0])
-      f.write('%i\t%i\n'%listeBestFitness[len(listeBestFitness)-j])
+    for j in range(1,int(len(listeBestFitness)*20.0/100)+1) :
+      IDmemory.append(listeBestFitness[-j][0])
+      f.write('%i\t%f\n'%listeBestFitness[-j])
     f.close()
 
     #Liste des graphes correspondant aux 20% aillant la meilleure fitness
     BestListGraph = []
     for i in self.listGraph:
-      choix = True
       if i.ID in IDmemory:
-        choix = False
-      if choix == False:
         BestListGraph.append(i)
     
-    
+    print('best fitness :' + str(len(BestListGraph)))
     #Affichage de tous les graphes
     for k in BestListGraph:
       nx.draw(k.graph)
@@ -184,20 +182,17 @@ class AlgoGen:
     listeFitness = []
     for i in range(len(self.listGraph)):
       listeFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) #creation d'une liste de tuples
-    sorted(listeFitness, key = self.getFitness)
+    listeFitness = sorted(listeFitness, key = self.getFitness)
     IDmemory = []
-    for j in range(1, int(len(listeFitness)*20.0/100)) :
-      IDmemory.append(listeFitness[len(listeFitness)-j][0])
+    for j in range(1, int(len(listeFitness)*20.0/100)+1) :
+      IDmemory.append(listeFitness[-j][0])
     f = open('suiviBestfitness.txt','a')
     f.write('%i\t%f\n'%listeFitness[-1])
     f.close()
     
     newListGraph = []
     for i in self.listGraph:
-      choix = True
-      if i.ID in IDmemory:
-        choix = False
-      if choix == True:
+      if i.ID not in IDmemory:
         newListGraph.append(i)
     return newListGraph
   
