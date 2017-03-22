@@ -2,6 +2,7 @@ import networkx as nx
 from scipy import stats
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Graphe :
@@ -21,7 +22,7 @@ class Graphe :
 
 
 
-  def loiPuissance(self) :
+  def loiPuissance(self,plot,time=0) :
     print ("loi puissance")
     l_k=[]
     pk=[]
@@ -50,13 +51,20 @@ class Graphe :
         if S>5 :
           S=5
         r= 5-S
+        if plot:
+          lg_k = np.array(lg_k)
+          fig = plt.figure()
+          plt.plot(lg_k,lg_pk,'o')
+          plt.plot(lg_k,lr[1]+lr[0]*lg_k,'r')
+          plt.title('Regression lineaire - loi de Puissance')
+          plt.savefig('puissance_%i'%time,format='png')
       else:
         r = 0.0
     else:
       r = 0.0
     return r
 
-  def coeffCluster(self):
+  def coeffCluster(self,plot,time=0):
     print("coeff")
     loc_coeffCluster = []
     degrees = []
@@ -74,6 +82,13 @@ class Graphe :
         if S > 5 :
           S = 5
         r = 5 - S
+        if plot:
+          degrees = np.array(degrees)
+          fig = plt.figure()
+          plt.plot(degrees,loc_coeffCluster,'o')
+          plt.plot(degrees,lr[1]+lr[0]*degrees,'r')
+          plt.title('Regression lineaire - coefficient Clustering')
+          plt.savefig('cluster_%i'%time,format='png')
       else:
         r = 0.0
     else:
@@ -94,7 +109,7 @@ class Graphe :
     return r
     
   def calculFitness(self) :
-    f=self.poidsPonderation[0]*self.loiPuissance() + self.poidsPonderation[1]*self.coeffCluster() + self.poidsPonderation[2]*self.diametreMoyen()
+    f=self.poidsPonderation[0]*self.loiPuissance(False)+self.poidsPonderation[1]*self.coeffCluster(False)+self.poidsPonderation[2]*self.diametreMoyen()
     self.fitness = f
     return f
 

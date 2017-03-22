@@ -6,6 +6,7 @@ from graphe import Graphe
 import matplotlib.pyplot as plt
 
 
+
 class AlgoGen:
 
   def __init__(self, N, n, e, Pm, Pc):
@@ -171,8 +172,24 @@ class AlgoGen:
     print('best fitness :' + str(len(BestListGraph)))
     #Affichage de tous les graphes
     for k in BestListGraph:
+      fig = plt.figure()
       nx.draw(k.graph)
-      plt.show()
+      plt.savefig('graphe_%i'%i.ID,format='png')
+      #plt.show()
+  
+  def affiche_suivi(self,time):
+    listeBestFitness = []
+    for i in range(len(self.listGraph)):
+      #creation d'une liste de tuples
+      listeBestFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) 
+    listeBestFitness = sorted(listeBestFitness, key = self.getFitness)
+    BestID = listeBestFitness[-1][0]
+    for i in self.listGraph:
+      if i.ID == BestID:
+        i.loiPuissance(True,time)
+        i.coeffCluster(True,time)
+        break
+
 
   def getFitness(self,tupl):
     return tupl[1]
@@ -203,7 +220,7 @@ class AlgoGen:
       print ("fitness")
       self.listGraph[i].calculFitness()
     t=0
-    while(t<20): 
+    while(t<50): 
       print t
       f = open('suiviBestfitness.txt','a')
       f.write('%i\t'%t)
@@ -213,6 +230,9 @@ class AlgoGen:
       self.crossingOver(listeModif)
       for i in range(len(self.listGraph)):
         self.listGraph[i].calculFitness()
+      if t%10 == 0:
+        self.affiche_suivi(t)
+        print('intermediate results saved')
       t = t+1
     #print(self.listGraph)
     #print(len(self.listGraph))
