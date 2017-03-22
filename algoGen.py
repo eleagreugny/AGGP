@@ -14,7 +14,7 @@ class AlgoGen:
     for i in range(N):
       print i
       #Graphe(self,ID, typeG, nodes, edges)
-      G = Graphe(i, i%2, n, e)
+      G = Graphe(i, n, e)
       self.listGraph.append(G)
     self.pm = Pm
     self.pc = Pc
@@ -171,7 +171,8 @@ class AlgoGen:
     print('best fitness :' + str(len(BestListGraph)))
     #Affichage de tous les graphes
     for k in BestListGraph:
-      nx.draw(k.graph)
+      deg = nx.degree(k.graph).values()
+      nx.draw_spectral(k.graph, node_size=10, with_labels=False, width=0.5, node_color = deg,cmap=plt.cm.Blues)
       plt.show()
 
   def getFitness(self,tupl):
@@ -203,7 +204,7 @@ class AlgoGen:
       print ("fitness")
       self.listGraph[i].calculFitness()
     t=0
-    while(t<100): 
+    while(t<50): 
       print t
       f = open('suiviBestfitness.txt','a')
       f.write('%i\t'%t)

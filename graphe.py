@@ -6,11 +6,10 @@ import numpy as np
 
 class Graphe :
 
-  def __init__(self,ID, typeG, nodes, edges):
-    if typeG == 0: 
-      self.graph = nx.gnm_random_graph(nodes, edges, seed=None, directed=False)
-    else :  #typeG == 1:
-      self.graph = nx.barabasi_albert_graph(nodes, edges, seed=None)
+  def __init__(self,ID,nodes, edges): #typeG
+    self.graph = nx.gnm_random_graph(nodes, edges, seed=None, directed=False)
+
+    #self.graph = nx.barabasi_albert_graph(nodes, edges, seed=None)
     #else: #typeG == 3: 
      # self.graph = nx.watts_strogatz_graph(nodes, edges, 0.5, seed=None)
     
