@@ -6,7 +6,6 @@ from graphe import Graphe
 import matplotlib.pyplot as plt
 
 
-
 class AlgoGen:
 
   def __init__(self, N, n, e, Pm, Pc):
@@ -15,7 +14,7 @@ class AlgoGen:
     for i in range(N):
       print i
       #Graphe(self,ID, typeG, nodes, edges)
-      G = Graphe(i, i%2, n, e)
+      G = Graphe(i, n, e)
       self.listGraph.append(G)
     self.pm = Pm
     self.pc = Pc
@@ -172,24 +171,8 @@ class AlgoGen:
     print('best fitness :' + str(len(BestListGraph)))
     #Affichage de tous les graphes
     for k in BestListGraph:
-      fig = plt.figure()
       nx.draw(k.graph)
-      plt.savefig('graphe_%i'%i.ID,format='png')
-      #plt.show()
-  
-  def affiche_suivi(self,time):
-    listeBestFitness = []
-    for i in range(len(self.listGraph)):
-      #creation d'une liste de tuples
-      listeBestFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) 
-    listeBestFitness = sorted(listeBestFitness, key = self.getFitness)
-    BestID = listeBestFitness[-1][0]
-    for i in self.listGraph:
-      if i.ID == BestID:
-        i.loiPuissance(True,time)
-        i.coeffCluster(True,time)
-        break
-
+      plt.show()
 
   def getFitness(self,tupl):
     return tupl[1]
