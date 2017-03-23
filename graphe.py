@@ -16,7 +16,7 @@ class Graphe :
     
     self.fitness = 0.0
     self.ID = ID
-    self.poidsPonderation = (2,2,1)
+    self.poidsPonderation = (4,2,1)
 
 
 

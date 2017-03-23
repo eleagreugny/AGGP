@@ -147,7 +147,6 @@ class AlgoGen:
             listGraph[g].graph.add_edge(*temp[k])
 
   def affiche(self):
-    
     #Je recupere une liste de fitness des 20% meilleurs graphe 
     listeBestFitness = []
     for i in range(len(self.listGraph)):
@@ -171,8 +170,24 @@ class AlgoGen:
     print('best fitness :' + str(len(BestListGraph)))
     #Affichage de tous les graphes
     for k in BestListGraph:
-      nx.draw(k.graph)
-      plt.show()
+      fig = plt.figure()
+      deg = nx.degree(k.graph).values()
+      nx.draw_spectral(k.graph, node_size=10, with_labels=False, width=0.5, node_color = deg,cmap=plt.cm.Blues)
+      plt.savefig('graphe_%i'%k.ID,format='png')
+      #plt.show()
+ 
+  def affiche_suivi(self,time):
+    listeBestFitness = []
+    for i in range(len(self.listGraph)):
+      #creation d'une liste de tuples
+      listeBestFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) 
+      listeBestFitness = sorted(listeBestFitness, key = self.getFitness)
+      BestID = listeBestFitness[-1][0]
+      for i in self.listGraph:
+        if i.ID == BestID:
+          i.loiPuissance(True,time)
+          i.coeffCluster(True,time)
+          break
 
   def getFitness(self,tupl):
     return tupl[1]
@@ -203,7 +218,7 @@ class AlgoGen:
       print ("fitness")
       self.listGraph[i].calculFitness()
     t=0
-    while(t<50): 
+    while(t<100): 
       print t
       f = open('suiviBestfitness.txt','a')
       f.write('%i\t'%t)
@@ -213,7 +228,7 @@ class AlgoGen:
       self.crossingOver(listeModif)
       for i in range(len(self.listGraph)):
         self.listGraph[i].calculFitness()
-      if t%10 == 0:
+      if t%20 == 0:
         self.affiche_suivi(t)
         print('intermediate results saved')
       t = t+1
