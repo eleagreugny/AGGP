@@ -22,7 +22,7 @@ class Graphe :
 
 
   def loiPuissance(self,plot,time=0) :
-    print ("loi puissance")
+    #print ("loi puissance")
     l_k=[]
     pk=[]
     lg_pk=[]
@@ -55,8 +55,9 @@ class Graphe :
           fig = plt.figure()
           plt.plot(lg_k,lg_pk,'o')
           plt.plot(lg_k,lr[1]+lr[0]*lg_k,'r')
-          plt.title('Regression lineaire - loi de Puissance')
+          plt.title('Regression lineaire - loi de Puissance - gamma = %f'%lr[0])
           plt.savefig('puissance_%i'%time,format='png')
+          plt.close(fig)
       else:
         r = 0.0
     else:
@@ -64,7 +65,7 @@ class Graphe :
     return r
 
   def coeffCluster(self,plot,time=0):
-    print("coeff")
+    #print("coeff")
     loc_coeffCluster = []
     degrees = []
     for u in self.graph.nodes():
@@ -86,8 +87,9 @@ class Graphe :
           fig = plt.figure()
           plt.plot(degrees,loc_coeffCluster,'o')
           plt.plot(degrees,lr[1]+lr[0]*degrees,'r')
-          plt.title('Regression lineaire - coefficient Clustering')
+          plt.title('Regression lineaire - coefficient Clustering - pente = %f'%lr[0])
           plt.savefig('cluster_%i'%time,format='png')
+          plt.close(fig)
       else:
         r = 0.0
     else:
@@ -95,7 +97,7 @@ class Graphe :
     return r
 
   def diametreMoyen(self):
-    print ("diametre")
+    #print ("diametre")
     if nx.is_connected(self.graph):
       D = nx.diameter(self.graph)
       ref = math.log(len(self.graph.nodes()))/math.log(math.log(len(self.graph.nodes())))
