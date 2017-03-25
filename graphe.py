@@ -2,27 +2,27 @@ import networkx as nx
 from scipy import stats
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Graphe :
 
-  def __init__(self,ID, typeG, nodes, edges):
-    if typeG == 0: 
-      self.graph = nx.gnm_random_graph(nodes, edges, seed=None, directed=False)
-    else :  #typeG == 1:
-      self.graph = nx.barabasi_albert_graph(nodes, edges, seed=None)
+  def __init__(self,ID,nodes, edges): #typeG
+    self.graph = nx.gnm_random_graph(nodes, edges, seed=None, directed=False)
+
+    #self.graph = nx.barabasi_albert_graph(nodes, edges, seed=None)
     #else: #typeG == 3: 
      # self.graph = nx.watts_strogatz_graph(nodes, edges, 0.5, seed=None)
     
     self.fitness = 0.0
     self.ID = ID
-    self.poidsPonderation = (2,2,1)
+    self.poidsPonderation = (4,2,1)
 
 
 
 
-  def loiPuissance(self) :
-    print ("loi puissance")
+  def loiPuissance(self,plot,time=0) :
+    #print ("loi puissance")
     l_k=[]
     pk=[]
     lg_pk=[]
@@ -40,8 +40,9 @@ class Graphe :
       l_k.append(k)
     for i in range(len(pk)) :
       if l_k[i]!=0 and pk[i]!=0:
-        lg_k.append(np.log(l_k[i]))
-        lg_pk.append(np.log(pk[i]))
+        if l_k[i]!=1 and pk[i]!=1:
+          lg_k.append(np.log(l_k[i]))
+          lg_pk.append(np.log(pk[i]))
     if lg_k:
       lr= stats.linregress(lg_k,lg_pk)
       if not math.isnan(lr[0]):
@@ -49,14 +50,22 @@ class Graphe :
         if S>5 :
           S=5
         r= 5-S
+        if plot:
+          lg_k = np.array(lg_k)
+          fig = plt.figure()
+          plt.plot(lg_k,lg_pk,'o')
+          plt.plot(lg_k,lr[1]+lr[0]*lg_k,'r')
+          plt.title('Regression lineaire - loi de Puissance - gamma = %f'%lr[0])
+          plt.savefig('puissance_%i'%time,format='png')
+          plt.close(fig)
       else:
         r = 0.0
     else:
       r = 0.0
     return r
 
-  def coeffCluster(self):
-    print("coeff")
+  def coeffCluster(self,plot,time=0):
+    #print("coeff")
     loc_coeffCluster = []
     degrees = []
     for u in self.graph.nodes():
@@ -73,6 +82,14 @@ class Graphe :
         if S > 5 :
           S = 5
         r = 5 - S
+        if plot:
+          degrees = np.array(degrees)
+          fig = plt.figure()
+          plt.plot(degrees,loc_coeffCluster,'o')
+          plt.plot(degrees,lr[1]+lr[0]*degrees,'r')
+          plt.title('Regression lineaire - coefficient Clustering - pente = %f'%lr[0])
+          plt.savefig('cluster_%i'%time,format='png')
+          plt.close(fig)
       else:
         r = 0.0
     else:
@@ -80,7 +97,7 @@ class Graphe :
     return r
 
   def diametreMoyen(self):
-    print ("diametre")
+    #print ("diametre")
     if nx.is_connected(self.graph):
       D = nx.diameter(self.graph)
       ref = math.log(len(self.graph.nodes()))/math.log(math.log(len(self.graph.nodes())))
@@ -93,7 +110,7 @@ class Graphe :
     return r
     
   def calculFitness(self) :
-    f=self.poidsPonderation[0]*self.loiPuissance() + self.poidsPonderation[1]*self.coeffCluster() + self.poidsPonderation[2]*self.diametreMoyen()
+    f=self.poidsPonderation[0]*self.loiPuissance(False)+self.poidsPonderation[1]*self.coeffCluster(False)+self.poidsPonderation[2]*self.diametreMoyen()
     self.fitness = f
     return f
 

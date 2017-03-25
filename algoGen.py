@@ -14,7 +14,7 @@ class AlgoGen:
     for i in range(N):
       print i
       #Graphe(self,ID, typeG, nodes, edges)
-      G = Graphe(i, i%2, n, e)
+      G = Graphe(i, n, e)
       self.listGraph.append(G)
     self.pm = Pm
     self.pc = Pc
@@ -29,7 +29,7 @@ class AlgoGen:
     - Modification de l'étiquette d'une arrête
   """
   def mutation(self, listGraph):
-    print("mutation")
+    #print("mutation")
     for i in range(len(listGraph)):
       #Parcours les noeuds
       for j in range(len(listGraph[i].graph.nodes())-1):
@@ -83,7 +83,7 @@ class AlgoGen:
   Effectue un crossing over entre les noeuds (et les arrêtes) de deux génomes
   """
   def crossingOver(self, listGraph):
-    print ("crossing over")
+    #print ("crossing over")
     for i in range(len(listGraph)):
       #Tire aléatoirement un chiffre r dans la loi uniforme entre 0 et 1
       r=random.random()
@@ -147,7 +147,6 @@ class AlgoGen:
             listGraph[g].graph.add_edge(*temp[k])
 
   def affiche(self):
-    
     #Je recupere une liste de fitness des 20% meilleurs graphe 
     listeBestFitness = []
     for i in range(len(self.listGraph)):
@@ -168,17 +167,34 @@ class AlgoGen:
       if i.ID in IDmemory:
         BestListGraph.append(i)
     
-    print('best fitness :' + str(len(BestListGraph)))
+    #print('best fitness :' + str(len(BestListGraph)))
     #Affichage de tous les graphes
     for k in BestListGraph:
-      nx.draw(k.graph)
-      plt.show()
+      fig = plt.figure()
+      deg = nx.degree(k.graph).values()
+      nx.draw_spectral(k.graph, node_size=10, with_labels=False, width=0.5, node_color = deg,cmap=plt.cm.Blues)
+      plt.savefig('graphe_%i'%k.ID,format='png')
+      plt.close(fig)
+      #plt.show()
+ 
+  def affiche_suivi(self,time):
+    listeBestFitness = []
+    for i in range(len(self.listGraph)):
+      #creation d'une liste de tuples
+      listeBestFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) 
+      listeBestFitness = sorted(listeBestFitness, key = self.getFitness)
+      BestID = listeBestFitness[-1][0]
+      for i in self.listGraph:
+        if i.ID == BestID:
+          i.loiPuissance(True,time)
+          i.coeffCluster(True,time)
+          break
 
   def getFitness(self,tupl):
     return tupl[1]
 
   def selectionFitness(self):
-    print ("selection fitness")
+    #print ("selection fitness")
     listeFitness = []
     for i in range(len(self.listGraph)):
       listeFitness.append((self.listGraph[i].ID,self.listGraph[i].fitness)) #creation d'une liste de tuples
@@ -199,11 +215,12 @@ class AlgoGen:
   
   def simulation(self) :
     print('Debut simulation')
+    plt.close('all')
     for i in range(len(self.listGraph)):
-      print ("fitness")
+      #print ("fitness")
       self.listGraph[i].calculFitness()
     t=0
-    while(t<50):
+    while(t<100):
       print t
       f = open('suiviBestfitness.txt','a')
       f.write('%i\t'%t)
@@ -213,6 +230,9 @@ class AlgoGen:
       self.crossingOver(listeModif)
       for i in range(len(self.listGraph)):
         self.listGraph[i].calculFitness()
+      if t%20 == 0:
+        self.affiche_suivi(t)
+        #print('intermediate results saved')
       t = t+1
     #print(self.listGraph)
     #print(len(self.listGraph))
