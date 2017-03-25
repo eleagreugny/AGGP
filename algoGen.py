@@ -203,7 +203,7 @@ class AlgoGen:
       print ("fitness")
       self.listGraph[i].calculFitness()
     t=0
-    while(t<20): 
+    while(t<50):
       print t
       f = open('suiviBestfitness.txt','a')
       f.write('%i\t'%t)
